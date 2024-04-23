@@ -194,6 +194,8 @@ pyrightconfig.json
 
 # End of https://www.toptal.com/developers/gitignore/api/python,visualstudiocode
 
+
+# 입출력 결과 이미지 제외
 *.png
 *.jpg
 # output-*.png
