@@ -219,36 +219,58 @@ for image in image_paths:
         for y, x in zip(y_indices5, x_indices5):
             #* left connectivity
             if ((lb[y, x-1] != backgroundPixel) and (lb[y+1, x-1] == backgroundPixel) and (lb[y, x+1] == contourPixel) and (lb[y+1, x] == contourPixel) and (lb[y+1, x+1] == contourPixel)):
-                if ((lb[y, x+2] == contourPixel) and (lb[y+1, x+2] == contourPixel)):
+                if (((lb[y, x+2] == contourPixel) and (lb[y+1, x+2] == contourPixel)) or (lb[y-1, x] == skeletonPixel)):
                     fp[y+1, x] = 255
                     lb[y+1, x] = backgroundPixel
                     lb[y, x] = skeletonPixel
                     cnt += 1
-            elif ((lb[y, x-1] == backgroundPixel) and (lb[y+1, x-1] != backgroundPixel) and (lb[y, x+1] == contourPixel) and (lb[y+1, x] == contourPixel) and (lb[y+1, x+1] == contourPixel)): 
-                if ((lb[y, x+2] == contourPixel) and (lb[y+1, x+2] == contourPixel)):
+                elif (lb[y+2,x] == skeletonPixel):
                     fp[y, x] = 255
                     lb[y, x] = backgroundPixel
                     lb[y+1, x] = skeletonPixel
+                    cnt += 1
+            elif ((lb[y, x-1] == backgroundPixel) and (lb[y+1, x-1] != backgroundPixel) and (lb[y, x+1] == contourPixel) and (lb[y+1, x] == contourPixel) and (lb[y+1, x+1] == contourPixel)): 
+                if (((lb[y, x+2] == contourPixel) and (lb[y+1, x+2] == contourPixel)) or (lb[y+2, x] == skeletonPixel)):
+                    fp[y, x] = 255
+                    lb[y, x] = backgroundPixel
+                    lb[y+1, x] = skeletonPixel
+                    cnt += 1
+                elif (lb[y-1, x] == skeletonPixel):
+                    fp[y+1, x] = 255
+                    lb[y+1, x] = backgroundPixel
+                    lb[y, x] = skeletonPixel
                     cnt += 1
             #* right connectivity
             elif ((lb[y, x+1] != backgroundPixel) and (lb[y+1, x+1] == backgroundPixel) and (lb[y, x-1] == contourPixel) and (lb[y+1, x] == contourPixel) and (lb[y+1, x-1] == contourPixel)): 
-                if ((lb[y, x-2] == contourPixel) and (lb[y+1, x-2] == contourPixel)):
+                if (((lb[y, x-2] == contourPixel) and (lb[y+1, x-2] == contourPixel)) or (lb[y-1, x] == skeletonPixel)):
                     fp[y+1, x] = 255
                     lb[y+1, x] = backgroundPixel
                     lb[y, x] = skeletonPixel
                     cnt += 1
-            elif ((lb[y, x+1] == backgroundPixel) and (lb[y+1, x+1] != backgroundPixel) and (lb[y, x-1] == contourPixel) and (lb[y+1, x] == contourPixel) and (lb[y+1, x-1] == contourPixel)): 
-                if ((lb[y, x-2] == contourPixel) and (lb[y+1, x-2] == contourPixel)):
+                elif (lb[y+2, x] == skeletonPixel):
                     fp[y, x] = 255
                     lb[y, x] = backgroundPixel
                     lb[y+1, x] = skeletonPixel
+                    cnt += 1
+            elif ((lb[y, x+1] == backgroundPixel) and (lb[y+1, x+1] != backgroundPixel) and (lb[y, x-1] == contourPixel) and (lb[y+1, x] == contourPixel) and (lb[y+1, x-1] == contourPixel)): 
+                if (((lb[y, x-2] == contourPixel) and (lb[y+1, x-2] == contourPixel)) or (lb[y+2, x] == skeletonPixel)):
+                    fp[y, x] = 255
+                    lb[y, x] = backgroundPixel
+                    lb[y+1, x] = skeletonPixel
+                elif (lb[y-1, x] == skeletonPixel):
+                    fp[y+1, x] = 255
+                    lb[y+1, x] = backgroundPixel
+                    lb[y, x] = skeletonPixel
+                    cnt += 1
             #* up connectivity
             elif ((lb[y-1, x] != backgroundPixel) and (lb[y-1, x+1] == backgroundPixel) and (lb[y, x+1] == contourPixel) and (lb[y+1, x] == contourPixel) and (lb[y+1, x+1] == contourPixel)): 
-                if ((lb[y+2, x] == contourPixel) and (lb[y+2, x+1] == contourPixel)):
+                if (((lb[y+2, x] == contourPixel) and (lb[y+2, x+1] == contourPixel)) or (lb[y, x-1] == skeletonPixel)):
                     fp[y, x+1] = 255
                     lb[y, x+1] = backgroundPixel
                     lb[y, x] = skeletonPixel
                     cnt += 1
+                elif (lb[y, x+2] == skeletonPixel):
+                    fp[y, x+1]
             elif ((lb[y-1, x] == backgroundPixel) and (lb[y-1, x+1] != backgroundPixel) and (lb[y, x+1] == contourPixel) and (lb[y+1, x] == contourPixel) and (lb[y+1, x+1] == contourPixel)): 
                 if ((lb[y+2, x] == contourPixel) and (lb[y+2, x+1] == contourPixel)):
                     fp[y, x] = 255
